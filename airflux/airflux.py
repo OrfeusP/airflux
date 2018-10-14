@@ -195,12 +195,14 @@ def main():
             print('Initializing db...')
             airflux_obj.init_db()
         elif args.cmd == 'flight-plan':
-            pprint(
-                airflux_obj.flight_plan(args.airport), indent=4
-            )
+            fl_plan = airflux_obj.flight_plan(args.airport)
+            if fl_plan is None:
+                raise Exception('airport not found')
+            pprint(fl_plan, indent=4)
+
         elif args.cmd == 'operations-plan':
             if args.registration is None:
-                print('registration number is required')
+                raise Exception('registration number is required')
             pprint(
                 airflux_obj.operations_plan(args.registration), indent=4
             )
